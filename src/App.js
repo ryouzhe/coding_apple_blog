@@ -10,10 +10,20 @@ function App() {
   const [modal, setModal] = useState(false);
   const [contentName, setContentName] = useState("");
 
+  const [inputVal, setInputVal] = useState("");
+
   function changeCounter(index) {
     let newCounter = [...counter];
     newCounter[index] += 1;
     setCounter(newCounter);
+  }
+  function saveInputVal(value) {
+    let newArray = [value, ...content];
+    counter.push(0);
+    setContent(newArray);
+  }
+  function initInput() {
+    setInputVal("");
   }
 
   return (
@@ -37,21 +47,39 @@ function App() {
               }}
             >
               {contentString}
-              <span
-                onClick={() => {
-                  changeCounter(index);
-                }}
-              >
-                {" "}
-                👍
-              </span>
-              {counter[index]}
             </h3>
+            <span
+              onClick={() => {
+                changeCounter(index);
+              }}
+            >
+              {" "}
+              👍
+            </span>
+            {counter[index]}
             <p>9월 17일 발행</p>
             <hr />
           </div>
         );
       })}
+
+      <div className="publish">
+        <input
+          onChange={(e) => {
+            setInputVal(e.target.value);
+          }}
+          value={inputVal}
+        />
+        <button
+          onClick={() => {
+            saveInputVal(inputVal);
+            initInput();
+          }}
+        >
+          저장
+        </button>
+      </div>
+
       {modal === true ? <Modal text={contentName}></Modal> : null}
     </div>
   );
