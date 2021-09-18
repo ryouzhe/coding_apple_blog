@@ -8,6 +8,7 @@ function App() {
   const [counter, setCounter] = useState([0, 0, 0]);
 
   const [modal, setModal] = useState(false);
+  const [contentName, setContentName] = useState("");
 
   function changeCounter(index) {
     let newCounter = [...counter];
@@ -20,11 +21,22 @@ function App() {
       <div className="black-nav">
         <div>개발 blog</div>
       </div>
-      {content.map(function (contentName, index) {
+      {content.map(function (contentString, index) {
         return (
           <div className="list" key={index}>
-            <h3>
-              {contentName}
+            <h3
+              onClick={() => {
+                if (modal === false) {
+                  setContentName(contentString);
+                  setModal(!modal);
+                } else {
+                  contentName === contentString
+                    ? setModal(!modal)
+                    : setContentName(contentString);
+                }
+              }}
+            >
+              {contentString}
               <span
                 onClick={() => {
                   changeCounter(index);
@@ -40,15 +52,15 @@ function App() {
           </div>
         );
       })}
-      {/* {modal === true ? <Modal content={contentName}></Modal> : null} */}
+      {modal === true ? <Modal text={contentName}></Modal> : null}
     </div>
   );
 }
 
-function Modal(content) {
+function Modal(props) {
   return (
     <div className="modal">
-      <h2>{content}</h2>
+      <h2>{props.text}</h2>
       <p>날짜</p>
       <p>상세내용</p>
     </div>
