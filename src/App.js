@@ -7,6 +7,8 @@ function App() {
   const [content, setContent] = useState(["React", "Redux", "Hooks"]);
   const [counter, setCounter] = useState(0);
 
+  const [modal, setModal] = useState(false);
+
   function changeContent() {
     let newArray = [...content];
     newArray[0] = "JavaScript";
@@ -40,10 +42,29 @@ function App() {
         <hr />
       </div>
       <div className="list">
-        <h3>{content[2]}</h3>
+        <h3
+          onClick={() => {
+            let modalVal = modal;
+            modal === true ? (modalVal = false) : (modalVal = true);
+            setModal(modalVal);
+          }}
+        >
+          {content[2]}
+        </h3>
         <p>9월 17일 발행</p>
         <hr />
       </div>
+      {modal === true ? <Modal></Modal> : null}
+    </div>
+  );
+}
+
+function Modal() {
+  return (
+    <div className="modal">
+      <h2></h2>
+      <p>날짜</p>
+      <p>상세내용</p>
     </div>
   );
 }
