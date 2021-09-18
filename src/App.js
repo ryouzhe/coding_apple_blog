@@ -5,14 +5,14 @@ import "./App.css";
 
 function App() {
   const [content, setContent] = useState(["React", "Redux", "Hooks"]);
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState([0, 0, 0]);
 
   const [modal, setModal] = useState(false);
 
-  function changeContent() {
-    let newArray = [...content];
-    newArray[0] = "JavaScript";
-    setContent(newArray);
+  function changeCounter(index) {
+    let newCounter = [...counter];
+    newCounter[index] += 1;
+    setCounter(newCounter);
   }
 
   return (
@@ -20,49 +20,35 @@ function App() {
       <div className="black-nav">
         <div>개발 blog</div>
       </div>
-      <button onClick={changeContent}>버튼</button>
-      <div className="list">
-        <h3>
-          {content[0]}{" "}
-          <span
-            onClick={() => {
-              setCounter(counter + 1);
-            }}
-          >
-            👍
-          </span>
-          {counter}
-        </h3>
-        <p>9월 17일 발행</p>
-        <hr />
-      </div>
-      <div className="list">
-        <h3>{content[1]}</h3>
-        <p>9월 17일 발행</p>
-        <hr />
-      </div>
-      <div className="list">
-        <h3
-          onClick={() => {
-            let modalVal = modal;
-            modal === true ? (modalVal = false) : (modalVal = true);
-            setModal(modalVal);
-          }}
-        >
-          {content[2]}
-        </h3>
-        <p>9월 17일 발행</p>
-        <hr />
-      </div>
-      {modal === true ? <Modal></Modal> : null}
+      {content.map(function (contentName, index) {
+        return (
+          <div className="list" key={index}>
+            <h3>
+              {contentName}
+              <span
+                onClick={() => {
+                  changeCounter(index);
+                }}
+              >
+                {" "}
+                👍
+              </span>
+              {counter[index]}
+            </h3>
+            <p>9월 17일 발행</p>
+            <hr />
+          </div>
+        );
+      })}
+      {/* {modal === true ? <Modal content={contentName}></Modal> : null} */}
     </div>
   );
 }
 
-function Modal() {
+function Modal(content) {
   return (
     <div className="modal">
-      <h2></h2>
+      <h2>{content}</h2>
       <p>날짜</p>
       <p>상세내용</p>
     </div>
